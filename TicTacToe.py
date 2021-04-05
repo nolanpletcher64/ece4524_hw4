@@ -1,4 +1,4 @@
-import TTBoardSoln
+import TTBoard as TTBoardSoln
 
 def main():
     # create an empty board
