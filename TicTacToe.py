@@ -3,8 +3,8 @@ import TTBoard as TTBoardSoln
 def main():
     # create an empty board
     # this is the root of the tree
-    doPointAdj = True
-    doAlphaBeta = False
+    doPointAdj = False
+    doAlphaBeta = True
 
     TTBoardSoln.TTBoard.numboards = 0
     TTBoardSoln.TTBoard.numsearched = 0

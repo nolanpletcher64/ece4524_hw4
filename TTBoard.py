@@ -105,12 +105,8 @@ class TTBoard():
         negdiagcount = 0
         self.utility = NOTDONE
         
-        
         # Do stepped utility to incentivize earlier wins        
         if (self.doPointAdj):
-            
-            # CODE HERE
-            print("oops")
             
             for count in range(self.WIDTH):
                 if ( (sum([col[count] for col in self.cells]) == self.WIDTH) or (sum(self.cells[count]) == self.WIDTH) ):
@@ -212,8 +208,8 @@ class TTBoard():
                     newb.whosemove = nextmove
                     newb.setCell(r, c, self.whosemove)
                     newb.parentNode = self
+                    newb.doPointAdj = self.doPointAdj                    
                     newb.utility = newb.isWinner()
-                    newb.doPointAdj = self.doPointAdj
                     self.addchild(newb)
                     if (newb.utility == NOTDONE):
                         newb.createchildren()
@@ -244,9 +240,36 @@ class TTBoard():
             self.utility = self.minutilofchildren()
         return
     
-    def alphabeta(self):
+    def maxutilofchildrenAB(self, a, b):
+
+        result = -HUGEVAL        
         
-        return
+        for bd in self.childNodes:
+            result = max(result, bd.minutilofchildrenAB(a, b))
+            if (result >= b):
+                TTBoard.numsearched += 1
+                return result
+            a = max(a, result)
+        return result
+    
+    def minutilofchildrenAB(self, a, b):
+        
+        result = HUGEVAL
+        
+        for bd in self.childNodes:
+            result = min(result, bd.maxutilofchildrenAB(a, b))
+            if (result <= a):
+                TTBoard.numsearched += 1
+                return result
+            b = min(b, result)
+        return result        
+    
+    def alphabeta(self):
+        util = self.maxutilofchildrenAB(-HUGEVAL, HUGEVAL)
+        
+        # How to find childNode state to return with the utility of util?
+        found = [state for state in self.childNodes if state.utility == util][0]
+        return found
 
     def __writeonelevel(self, file, depth):
         if (depth == 0):
@@ -260,6 +283,3 @@ class TTBoard():
         logfile.write(self.toString() + "\n")
         self.__writeonelevel(logfile, depth)
         logfile.close()
-
-
-
