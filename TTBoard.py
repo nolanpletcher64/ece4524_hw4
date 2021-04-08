@@ -104,21 +104,95 @@ class TTBoard():
         posdiagcount = 0
         negdiagcount = 0
         self.utility = NOTDONE
-        for count in range(self.WIDTH):
-            if ( (sum(self.cells[:][count]) == self.WIDTH) or (sum(self.cells[count][:]) == self.WIDTH) ):
+        
+        
+        # Do stepped utility to incentivize earlier wins        
+        if (self.doPointAdj):
+            
+            # CODE HERE
+            print("oops")
+            
+            for count in range(self.WIDTH):
+                if ( (sum([col[count] for col in self.cells]) == self.WIDTH) or (sum(self.cells[count]) == self.WIDTH) ):
+                    
+                    if (self.moves == 5):
+                        self.utility = 5
+                    elif (self.moves == 6):
+                        self.utility = 4
+                    elif (self.moves == 7):
+                        self.utility = 3
+                    elif (self.moves == 8):
+                        self.utility = 2
+                    elif (self.moves == 9):
+                        self.utility = 1
+                    
+                    return self.utility
+                
+                if ( (sum([col[count] for col in self.cells]) == -self.WIDTH) or (sum(self.cells[count]) == -self.WIDTH) ):
+                    
+                    if (self.moves == 5):
+                        self.utility = -5
+                    elif (self.moves == 6):
+                        self.utility = -4
+                    elif (self.moves == 7):
+                        self.utility = -3
+                    elif (self.moves == 8):
+                        self.utility = -2
+                    elif (self.moves == 9):
+                        self.utility = -1                    
+                    
+                    return self.utility
+                
+                posdiagcount += self.cells[count][count]
+                negdiagcount += self.cells[count][self.WIDTH-count-1]
+                
+            if ( (posdiagcount == self.WIDTH) or (negdiagcount == self.WIDTH)):
+                
+                if (self.moves == 5):
+                    self.utility = 5
+                elif (self.moves == 6):
+                    self.utility = 4
+                elif (self.moves == 7):
+                    self.utility = 3
+                elif (self.moves == 8):
+                    self.utility = 2
+                elif (self.moves == 9):
+                    self.utility = 1                
+
+            elif ( (posdiagcount == -self.WIDTH) or (negdiagcount == -self.WIDTH)):
+                
+                if (self.moves == 5):
+                    self.utility = 5
+                elif (self.moves == 6):
+                    self.utility = 4
+                elif (self.moves == 7):
+                    self.utility = 3
+                elif (self.moves == 8):
+                    self.utility = 2
+                elif (self.moves == 9):
+                    self.utility = 1    
+                    
+            elif (self.moves == 9):
+                self.utility = DRAW            
+            
+        # Do standard utility   
+        else:
+            for count in range(self.WIDTH):
+                if ( (sum([col[count] for col in self.cells]) == self.WIDTH) or (sum(self.cells[count]) == self.WIDTH) ):
+                    self.utility = 1
+                    return self.utility
+                if ( (sum([col[count] for col in self.cells]) == -self.WIDTH) or (sum(self.cells[count]) == -self.WIDTH) ):
+                    self.utility = -1
+                    return self.utility
+                posdiagcount += self.cells[count][count]
+                negdiagcount += self.cells[count][self.WIDTH-count-1]
+            if ( (posdiagcount == self.WIDTH) or (negdiagcount == self.WIDTH)):
                 self.utility = 1
-                return self.utility
-            if ( (sum(self.cells[:][count]) == -self.WIDTH) or (sum(self.cells[count][:]) == -self.WIDTH) ):
+            elif ( (posdiagcount == -self.WIDTH) or (negdiagcount == -self.WIDTH)):
                 self.utility = -1
-                return self.utility
-            posdiagcount += self.cells[count][count]
-            negdiagcount += self.cells[count][self.WIDTH-count-1]
-        if ( (posdiagcount == self.WIDTH) or (negdiagcount == self.WIDTH)):
-            self.utility = 1
-        elif ( (posdiagcount == -self.WIDTH) or (negdiagcount == -self.WIDTH)):
-            self.utility = -1
-        elif (self.moves == 9):
-            self.utility = DRAW
+            elif (self.moves == 9):
+                self.utility = DRAW
+            
         return self.utility
 
     def createchildren(self):                   # creates all possible next moves
@@ -169,6 +243,10 @@ class TTBoard():
         else:
             self.utility = self.minutilofchildren()
         return
+    
+    def alphabeta(self):
+        
+        return
 
     def __writeonelevel(self, file, depth):
         if (depth == 0):
@@ -178,7 +256,7 @@ class TTBoard():
             bd.__writeonelevel(file, depth - 1)
 
     def treetofile(self, depth=3):
-        logfile = open('C:/Data/treefile.txt', 'w')
+        logfile = open('./Data/treefile.txt', 'w')
         logfile.write(self.toString() + "\n")
         self.__writeonelevel(logfile, depth)
         logfile.close()
