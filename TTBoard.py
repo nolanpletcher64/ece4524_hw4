@@ -310,7 +310,8 @@ class TTBoard():
         if (depth == 0):
             return
         for bd in self.childNodes:
-            file.write(bd.toString() + "\n")
+            if (bd.utility != NOTDONE):
+                file.write(bd.toString() + "\n")
             bd.__writeonelevel(file, depth - 1)
 
     def treetofile(self, depth=3):
