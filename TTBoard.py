@@ -240,36 +240,71 @@ class TTBoard():
             self.utility = self.minutilofchildren()
         return
     
-    def maxutilofchildrenAB(self, a, b):
+    
+    #def maxutilofchildrenAB(self, a, b):
 
-        result = -HUGEVAL        
+        #result = -HUGEVAL        
         
-        for bd in self.childNodes:
-            result = max(result, bd.minutilofchildrenAB(a, b))
-            if (result >= b):
-                TTBoard.numsearched += 1
-                return result
-            a = max(a, result)
-        return result
+        #for bd in self.childNodes:
+            #TTBoard.numsearched += 1
+            
+            #result = max(result, bd.minutilofchildrenAB(a, b))
+            #if (result >= b):
+            #    return result
+            #a = max(a, result)
+            #if (b <= a):
+                #break
+        #return result
     
-    def minutilofchildrenAB(self, a, b):
+    #def minutilofchildrenAB(self, a, b):
         
-        result = HUGEVAL
+        #result = HUGEVAL
         
-        for bd in self.childNodes:
-            result = min(result, bd.maxutilofchildrenAB(a, b))
-            if (result <= a):
-                TTBoard.numsearched += 1
-                return result
-            b = min(b, result)
-        return result        
+        #for bd in self.childNodes:
+            #TTBoard.numsearched += 1
+            
+            #result = min(result, bd.maxutilofchildrenAB(a, b))
+            #if (result <= a):
+            #    return result
+            #b = min(b, result)
+            #if (b <= a):
+                #break
+        #return result        
     
-    def alphabeta(self):
-        util = self.maxutilofchildrenAB(-HUGEVAL, HUGEVAL)
+    #def alphabeta(self):
+        #util = self.maxutilofchildrenAB(-HUGEVAL, HUGEVAL)
+        #return
+    
+    
+    def alphabeta(self, a, b, maxPlayer):
         
-        # How to find childNode state to return with the utility of util?
-        found = [state for state in self.childNodes if state.utility == util][0]
-        return found
+        TTBoard.numsearched += 1
+        
+        if (self.utility != NOTDONE):
+            return self.utility
+        
+        if (maxPlayer):
+            result = -HUGEVAL        
+        
+            for bd in self.childNodes:
+        
+                result = max(bd.alphabeta2(a, b, False), result)
+                a = max(a, result)
+                if (b < a):
+                    break
+            return result
+        
+        else:
+            result = HUGEVAL
+        
+            for bd in self.childNodes:
+        
+                result = min(bd.alphabeta2(a, b, True), result)
+                b = min(b, result)
+                if (b < a):
+                    break
+            return result
+        
 
     def __writeonelevel(self, file, depth):
         if (depth == 0):

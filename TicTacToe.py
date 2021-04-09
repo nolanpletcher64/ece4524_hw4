@@ -14,7 +14,8 @@ def main():
     
     # Select alpha beta pruning or minimax
     if (doAlphaBeta):
-        bd.alphabeta()
+        #bd.alphabeta()
+        bd.alphabeta2(-TTBoardSoln.HUGEVAL, TTBoardSoln.HUGEVAL, True)
     else:
         bd.minimax()
         
