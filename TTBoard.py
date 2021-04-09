@@ -158,15 +158,15 @@ class TTBoard():
             elif ( (posdiagcount == -self.WIDTH) or (negdiagcount == -self.WIDTH)):
                 
                 if (self.moves == 5):
-                    self.utility = 5
+                    self.utility = -5
                 elif (self.moves == 6):
-                    self.utility = 4
+                    self.utility = -4
                 elif (self.moves == 7):
-                    self.utility = 3
+                    self.utility = -3
                 elif (self.moves == 8):
-                    self.utility = 2
+                    self.utility = -2
                 elif (self.moves == 9):
-                    self.utility = 1    
+                    self.utility = -1    
                     
             elif (self.moves == 9):
                 self.utility = DRAW            
