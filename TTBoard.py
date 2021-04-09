@@ -241,41 +241,6 @@ class TTBoard():
         return
     
     
-    #def maxutilofchildrenAB(self, a, b):
-
-        #result = -HUGEVAL        
-        
-        #for bd in self.childNodes:
-            #TTBoard.numsearched += 1
-            
-            #result = max(result, bd.minutilofchildrenAB(a, b))
-            #if (result >= b):
-            #    return result
-            #a = max(a, result)
-            #if (b <= a):
-                #break
-        #return result
-    
-    #def minutilofchildrenAB(self, a, b):
-        
-        #result = HUGEVAL
-        
-        #for bd in self.childNodes:
-            #TTBoard.numsearched += 1
-            
-            #result = min(result, bd.maxutilofchildrenAB(a, b))
-            #if (result <= a):
-            #    return result
-            #b = min(b, result)
-            #if (b <= a):
-                #break
-        #return result        
-    
-    #def alphabeta(self):
-        #util = self.maxutilofchildrenAB(-HUGEVAL, HUGEVAL)
-        #return
-    
-    
     def alphabeta(self, a, b, maxPlayer):
         
         TTBoard.numsearched += 1
