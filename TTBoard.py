@@ -288,7 +288,7 @@ class TTBoard():
         
             for bd in self.childNodes:
         
-                result = max(bd.alphabeta2(a, b, False), result)
+                result = max(bd.alphabeta(a, b, False), result)
                 a = max(a, result)
                 if (b < a):
                     break
@@ -299,7 +299,7 @@ class TTBoard():
         
             for bd in self.childNodes:
         
-                result = min(bd.alphabeta2(a, b, True), result)
+                result = min(bd.alphabeta(a, b, True), result)
                 b = min(b, result)
                 if (b < a):
                     break
